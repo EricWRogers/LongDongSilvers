@@ -85,7 +85,7 @@ public class NetCodeSetup : MonoBehaviour
         );
 
         NetworkManager.Singleton.StartClient();
-        GameManager.Instance.SetJoinCode(inputField.text);
+        
         //Client does not need the load scene. It will automagically load into whatever scene the host is in.
         Debug.Log("Client started");
     }

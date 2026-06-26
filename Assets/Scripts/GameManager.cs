@@ -35,7 +35,7 @@ public class GameManager : NetworkBehaviour
     {
         if(!IsServer) return;
 
-        if(SceneManager.GetActiveScene().name != "Game")
+        if(SceneManager.GetActiveScene().name == "Game")
         {
             shiftTimer.Value = Mathf.Min(shiftTimer.Value + Time.deltaTime, maxShiftTime);
         }
