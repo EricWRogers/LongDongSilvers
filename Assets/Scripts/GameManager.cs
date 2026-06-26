@@ -1,6 +1,6 @@
 using UnityEngine;
-
-public class GameManager : MonoBehaviour
+using Unity.Netcode;  
+public class GameManager : NetworkBehaviour
 {
     //This whole thing may need to be a networkobj.
 
@@ -8,7 +8,9 @@ public class GameManager : MonoBehaviour
 
     public string JoinCode;
 
-    public bool IsHost;
+    public NetworkVariable<float> shiftTimer = new();
+
+    public float maxShiftTime = 600f; //10 minutes. The huds know what to do with this. Should be 8pm is the end of shift.
 
     void Awake()
     {
@@ -27,8 +29,11 @@ public class GameManager : MonoBehaviour
         JoinCode = code;
     }
 
-    public void SetHost(bool value)
+
+    void Update()
     {
-        IsHost = value;
+        if(!IsServer || !IsHost) return;
+
+        shiftTimer.Value += Time.deltaTime;
     }
 }

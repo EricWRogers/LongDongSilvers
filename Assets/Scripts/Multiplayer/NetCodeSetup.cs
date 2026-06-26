@@ -61,7 +61,6 @@ public class NetCodeSetup : MonoBehaviour
         NetworkManager.Singleton.SceneManager.LoadScene("Lobby", UnityEngine.SceneManagement.LoadSceneMode.Single);
 
         GameManager.Instance.SetJoinCode(joinCode);
-        GameManager.Instance.SetHost(true); 
 
         Debug.Log("Host started");
     }
@@ -83,7 +82,6 @@ public class NetCodeSetup : MonoBehaviour
 
         NetworkManager.Singleton.StartClient();
         GameManager.Instance.SetJoinCode(inputField.text);
-        GameManager.Instance.SetHost(false);
         //Client does not need the load scene. It will automagically load into whatever scene the host is in.
         Debug.Log("Client started");
     }
