@@ -20,38 +20,28 @@ public class Item : NetworkBehaviour
     }
 
 
-    public void PickUp()
-    {
-        if (!IsServer)
-        {
-            Debug.LogWarning("[Item] PickUp() called on a non-server instance. Ignoring.");
-            return;
-        }
-
-        rb.isKinematic = true;
-        col.enabled = false;
-    }
-
-    public void FollowHoldPoint(Transform holdPoint)
+    public void PickUp(Transform holdPoint)
     {
         if (!IsServer) return;
 
-        transform.position = holdPoint.position;
-        transform.rotation = holdPoint.rotation;
-    }
+        rb.isKinematic = true;
+        col.enabled = false;
 
+        if (!NetworkObject.TrySetParent(holdPoint, worldPositionStays: false))
+            Debug.LogWarning($"[Item] TrySetParent failed for {itemName}.");
+
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
+    }
 
     public void Drop(Vector3 dropPosition)
     {
-        if (!IsServer)
-        {
-            Debug.LogWarning("[Item] Drop() called on a non-server instance. Ignoring.");
-            return;
-        }
+        if (!IsServer) return;
 
-        transform.SetParent(null);
+        // Unparent first, then set world position.
+        NetworkObject.TrySetParent((Transform)null, worldPositionStays: false);
+
         transform.position = dropPosition;
-
         rb.isKinematic = false;
         col.enabled = true;
     }

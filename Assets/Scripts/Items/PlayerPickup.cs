@@ -1,20 +1,20 @@
 using Unity.Netcode;
 using UnityEngine;
 
-
 public class PlayerPickup : NetworkBehaviour
 {
     [Header("Pickup Settings")]
     public float pickupRange = 2.5f;
 
     [Header("References")]
-    public Transform holdPoint;     
+    public Transform holdPoint;
     public Camera playerCamera;
 
     [Header("Layer Mask")]
-    public LayerMask pickableLayer; 
+    public LayerMask pickableLayer;
 
     private Item heldItem = null;
+
     private NetworkVariable<ulong> heldItemNetId = new NetworkVariable<ulong>(
         ulong.MaxValue,
         NetworkVariableReadPermission.Everyone,
@@ -22,7 +22,6 @@ public class PlayerPickup : NetworkBehaviour
     );
 
     private InputSystem_Actions inputs;
-
 
     private bool IsHoldingItemLocally => heldItemNetId.Value != ulong.MaxValue;
 
@@ -34,16 +33,12 @@ public class PlayerPickup : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-
         if (!IsOwner && playerCamera != null)
             playerCamera.gameObject.SetActive(false);
     }
 
     void Update()
     {
-
-        if (IsServer && heldItem != null)
-            heldItem.FollowHoldPoint(holdPoint);
 
 
         if (!IsOwner) return;
@@ -52,7 +47,6 @@ public class PlayerPickup : NetworkBehaviour
         {
             if (!IsHoldingItemLocally)
             {
-
                 if (TryGetItemInSight(out ulong targetId))
                     RequestPickUpServerRpc(targetId);
             }
@@ -66,7 +60,6 @@ public class PlayerPickup : NetworkBehaviour
         if (inputs.Player.Drop.WasPressedThisFrame() && IsHoldingItemLocally)
             RequestDropServerRpc();
     }
-
 
     [ServerRpc]
     void RequestPickUpServerRpc(ulong networkObjectId)
@@ -107,11 +100,10 @@ public class PlayerPickup : NetworkBehaviour
             return false;
         }
 
-        // Distance validation — small tolerance for network latency.
         float dist = Vector3.Distance(transform.position, item.transform.position);
         if (dist > pickupRange + 1f)
         {
-            Debug.LogWarning($"[Server] Player too far from item (dist={dist:F2}). Rejecting pickup.");
+            Debug.LogWarning($"[Server] Player too far from item (dist={dist:F2}). Rejecting.");
             return false;
         }
 
@@ -121,10 +113,8 @@ public class PlayerPickup : NetworkBehaviour
     void PerformPickUp(Item item)
     {
         heldItem = item;
-        heldItem.PickUp();
-
+        heldItem.PickUp(holdPoint);
         heldItemNetId.Value = heldItem.NetworkObject.NetworkObjectId;
-
         Debug.Log($"[Server] {gameObject.name} picked up: {heldItem.itemName}");
     }
 
@@ -137,11 +127,8 @@ public class PlayerPickup : NetworkBehaviour
         Debug.Log($"[Server] {gameObject.name} dropped: {heldItem.itemName}");
 
         heldItem = null;
-
-        // Clear the NetworkVariable so the owner client knows the hand is empty.
         heldItemNetId.Value = ulong.MaxValue;
     }
-
 
     bool TryGetItemInSight(out ulong networkObjectId)
     {
@@ -162,11 +149,11 @@ public class PlayerPickup : NetworkBehaviour
         return true;
     }
 
-
     public Item GetHeldItem() => heldItem;
 
-
     public bool IsHoldingItem() => IsHoldingItemLocally;
+
+
     void OnEnable() => inputs.Player.Enable();
     void OnDisable() => inputs.Player.Disable();
 }
