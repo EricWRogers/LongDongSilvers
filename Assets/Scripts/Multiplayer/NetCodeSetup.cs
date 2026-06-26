@@ -6,11 +6,13 @@ using Unity.Services.Core;
 using Unity.Services.Authentication;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
-
+using TMPro;
 public class NetCodeSetup : MonoBehaviour
 {
     [Header("Debug Join Code")]
     public string joinCode; 
+
+    public TMP_InputField inputField;
 
     private UnityTransport transport;
 
@@ -56,14 +58,16 @@ public class NetCodeSetup : MonoBehaviour
 
         NetworkManager.Singleton.StartHost();
 
+        NetworkManager.Singleton.SceneManager.LoadScene("Lobby", UnityEngine.SceneManagement.LoadSceneMode.Single);
+
         Debug.Log("Host started");
     }
 
-    public async void StartClient(string code)
+    public async void StartClient()
     {
         //Join an existing Relay allocation using the join code
         JoinAllocation allocation =
-            await RelayService.Instance.JoinAllocationAsync(code);
+            await RelayService.Instance.JoinAllocationAsync(inputField.text);
 
         transport.SetClientRelayData(
             allocation.RelayServer.IpV4,
@@ -75,7 +79,7 @@ public class NetCodeSetup : MonoBehaviour
         );
 
         NetworkManager.Singleton.StartClient();
-
+        //Client does not need the load scene. It will automagically load into whatever scene the host is in.
         Debug.Log("Client started");
     }
 }
