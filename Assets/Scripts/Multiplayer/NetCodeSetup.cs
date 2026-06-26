@@ -60,6 +60,9 @@ public class NetCodeSetup : MonoBehaviour
 
         NetworkManager.Singleton.SceneManager.LoadScene("Lobby", UnityEngine.SceneManagement.LoadSceneMode.Single);
 
+        GameManager.Instance.SetJoinCode(joinCode);
+        GameManager.Instance.SetHost(true); 
+
         Debug.Log("Host started");
     }
 
