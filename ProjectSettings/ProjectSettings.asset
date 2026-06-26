@@ -925,11 +925,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 1
   windowsGamepadBackendHint: 0
-  cloudProjectId: 6ff5929d-db85-4b24-b9cf-9be1ae401d3c
+  cloudProjectId: c8cbed91-1024-4e39-9908-4ca3a7eaea2d
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
   projectName: LongDongSilvers
-  organizationId: yourgeekeric
+  organizationId: superpupstudio
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
