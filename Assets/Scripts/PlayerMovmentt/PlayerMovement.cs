@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using Unity.Netcode;    
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
     [Header("Movement")]
     public float moveSpeed = 8f;
@@ -45,6 +45,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnJump(InputAction.CallbackContext ctx)
     {
+        if (!IsOwner) return;
+
         if (coyoteTimer <= 0f) return;
 
         rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
@@ -53,6 +55,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (!IsOwner) return;
+
         moveInput = inputs.Player.Move.ReadValue<Vector2>();
 
         isGrounded = CheckGrounded();
@@ -65,6 +69,8 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!IsOwner) return;
+
         ApplyMovement();
     }
 

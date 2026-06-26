@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.Netcode;
 
-public class PlayerCamera : MonoBehaviour
+public class PlayerCamera : NetworkBehaviour
 {
     [Header("Target")]
     [Tooltip("Assign the player GameObject here")]
@@ -31,8 +32,23 @@ public class PlayerCamera : MonoBehaviour
     void OnEnable() => inputs.Player.Enable();
     void OnDisable() => inputs.Player.Disable();
 
+    public override void OnNetworkSpawn()
+    {
+        if (!IsOwner)
+        {
+            gameObject.GetComponent<Camera>().enabled = false; //Believe it or not, its too early to do this in awake.
+            return;
+        }
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+
     void LateUpdate()
     {
+        if (!IsOwner) return;
+
         Vector2 look = inputs.Player.Look.ReadValue<Vector2>();
 
         rotationY += look.x * sensitivityX;

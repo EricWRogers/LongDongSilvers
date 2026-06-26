@@ -2,6 +2,7 @@ using UnityEngine;
 using Unity.Netcode;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class LobbyUIManager : MonoBehaviour
 {
@@ -30,7 +31,7 @@ public class LobbyUIManager : MonoBehaviour
     void Start()
     {
         joinCodeText.text = GameManager.Instance.JoinCode;
-        
+
         //Rebuild on start.
         Refresh(0);
     }
@@ -55,6 +56,17 @@ public class LobbyUIManager : MonoBehaviour
 
             players.Add(obj);
         }
+    }
+
+    public void StartGame()
+    {
+        if (!NetworkManager.Singleton.IsHost)
+        {
+            Debug.Log("Only host can start the game.");
+            return;
+        }
+
+        NetworkManager.Singleton.SceneManager.LoadScene("Game",LoadSceneMode.Single);
     }
 
 }
