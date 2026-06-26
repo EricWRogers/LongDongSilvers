@@ -308,7 +308,6 @@ GameObject:
   - component: {fileID: 273310581}
   - component: {fileID: 273310580}
   - component: {fileID: 273310579}
-  - component: {fileID: 273310578}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -316,21 +315,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &273310578
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 273310577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab698307f7180864d91274593b2138dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NetCodeSetup
-  joinCode: 
-  inputField: {fileID: 38546105}
-  gameManagerPrefab: {fileID: 1059713976567199890, guid: 59f009c86e29db34b8f63a45f460dd6b, type: 3}
 --- !u!114 &273310579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1518,7 +1502,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NetCodeSetup
   joinCode: 
   inputField: {fileID: 38546105}
-  gameManagerPrefab: {fileID: 0}
+  gameManagerPrefab: {fileID: 1059713976567199890, guid: 59f009c86e29db34b8f63a45f460dd6b, type: 3}
 --- !u!1 &1372797686
 GameObject:
   m_ObjectHideFlags: 0

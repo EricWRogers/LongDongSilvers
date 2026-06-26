@@ -59,14 +59,14 @@ public class NetCodeSetup : MonoBehaviour
 
         NetworkManager.Singleton.StartHost();
 
-        NetworkManager.Singleton.SceneManager.LoadScene("Lobby", UnityEngine.SceneManagement.LoadSceneMode.Single);
-
-        GameManager.Instance.SetJoinCode(joinCode);
-
         Debug.Log("Host started");
 
         var gm = Instantiate(gameManagerPrefab);
         gm.GetComponent<NetworkObject>().Spawn();
+
+        GameManager.Instance.SetJoinCode(joinCode);
+
+        NetworkManager.Singleton.SceneManager.LoadScene("Lobby", UnityEngine.SceneManagement.LoadSceneMode.Single);
     }
 
     public async void StartClient()

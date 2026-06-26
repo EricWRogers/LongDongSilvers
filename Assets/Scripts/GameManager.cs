@@ -1,5 +1,6 @@
 using UnityEngine;
 using Unity.Netcode;  
+using UnityEngine.SceneManagement;
 public class GameManager : NetworkBehaviour
 {
     //This whole thing may need to be a networkobj.
@@ -34,7 +35,10 @@ public class GameManager : NetworkBehaviour
     {
         if(!IsServer) return;
 
-        shiftTimer.Value = Mathf.Min(shiftTimer.Value + Time.deltaTime, maxShiftTime);
+        if(SceneManager.GetActiveScene().name != "Game")
+        {
+            shiftTimer.Value = Mathf.Min(shiftTimer.Value + Time.deltaTime, maxShiftTime);
+        }
     }
 
     public string GetFormattedTime()
