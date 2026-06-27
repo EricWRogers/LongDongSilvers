@@ -21,70 +21,70 @@ public class POS : NetworkBehaviour
     
     public string orderText;
     
-    public void Start()
+    public override void OnNetworkSpawn()
     {
-        startShift.SetActive(true);
-        mealSelect.SetActive(false);
-        ingredientSelect.SetActive(false);
+        UpdatePanelClientRpc(true, false, false);
     }
-
     public void StartShift()
     {
-        startShift.SetActive(false);
-        mealSelect.SetActive(true);
+        StartShiftServerRpc();
     }
 
     public void SelectBurger()
     {
-        mealSelect.SetActive(false);
-        ingredientSelect.SetActive(true);
-        
         ingredientsForOrder.Add(patty);
         isThisPatty = true;
-        
         orderText = "";
-        text.text = orderText;
+        SelectBurgerServerRpc();
     }
-    
+
     public void SelectHotdog()
     {
-        mealSelect.SetActive(false);
-        ingredientSelect.SetActive(true);
-        
         ingredientsForOrder.Add(dong);
         isThisPatty = false;
-
         orderText = "";
-        text.text = orderText;
+        SelectHotdogServerRpc();
     }
 
     public void SubmitOrder()
     {
-        ingredientSelect.SetActive(false);
-        mealSelect.SetActive(true);
+        RegisterTest.Instance.NotifyOrderSubmittedServerRpc();
+        GameManager.Instance.SubmitOrderServerRpc(RegisterTest.Instance.CurrentCustomerId);
+        ingredientsForOrder.Clear();
+        orderText = "";
+        SubmitOrderServerRpc();
     }
 
-    public void AddIngredient(FoodIngredientButtonDefinition foodIngredient)
+    [ServerRpc(RequireOwnership = false)]
+    void StartShiftServerRpc()
     {
-        ingredientsForOrder.Add(foodIngredient.ingredient);
-        
-        orderText += foodIngredient.ingredient.IngredientName + "\n";
-        text.text = orderText;
+        GameManager.Instance.StartShiftServerRpc();
+        UpdatePanelClientRpc(false, true, false);
     }
 
-    public void AddMoreMeat()
+    [ServerRpc(RequireOwnership = false)]
+    void SelectBurgerServerRpc()
     {
-        if (isThisPatty)
-        {
-            ingredientsForOrder.Add(patty);
-            orderText += patty.IngredientName + "\n";
-        }
-        else
-        {
-            ingredientsForOrder.Add(dong);
-            orderText += dong.IngredientName + "\n";
-        }
-        
-        text.text = orderText;
+        UpdatePanelClientRpc(false, false, true);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void SelectHotdogServerRpc()
+    {
+        UpdatePanelClientRpc(false, false, true);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void SubmitOrderServerRpc()
+    {
+        UpdatePanelClientRpc(false, true, false);
+    }
+
+    [ClientRpc]
+    void UpdatePanelClientRpc(bool showStart, bool showMeal, bool showIngredient)
+    {
+        startShift.SetActive(showStart);
+        mealSelect.SetActive(showMeal);
+        ingredientSelect.SetActive(showIngredient);
     }
 }
