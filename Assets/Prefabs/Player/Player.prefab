@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 8493724046774213144}
   - component: {fileID: 8692461799579473732}
   - component: {fileID: 3488691945664538008}
+  - component: {fileID: 4538026042174525957}
+  - component: {fileID: 2041974264516310195}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -156,6 +158,35 @@ MonoBehaviour:
   sensitivityY: 0.15
   minYAngle: -80
   maxYAngle: 80
+--- !u!114 &4538026042174525957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827108781305646029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c49b4cc203aa6414fae5c798d1d0e7d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.PhysicsRaycaster
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_MaxRayIntersections: 0
+--- !u!114 &2041974264516310195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827108781305646029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e62a858a86e1a0d439cb255205ab9a8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WorldSpaceUIInteractor
+  interactDistance: 10
 --- !u!1 &2396489549813162938
 GameObject:
   m_ObjectHideFlags: 0
@@ -437,6 +468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cf5e7d5e75a41e390bbf9b82eac88a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteraction
+  ShowTopMostFoldoutHeaderGroup: 1
   interactRange: 3
   sphereCastRadius: 0.25
   interactLayers:

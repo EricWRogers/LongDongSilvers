@@ -2,11 +2,10 @@ using UnityEngine;
 using Unity.Netcode;  
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using System.Collections;
 public class GameManager : NetworkBehaviour
 {
-    //This whole thing may need to be a networkobj.
-
-     public static GameManager Instance;
+    public static GameManager Instance;
 
     public string JoinCode;
 
@@ -23,6 +22,12 @@ public class GameManager : NetworkBehaviour
     };
 
     private readonly Dictionary<ulong, Color32> playerColors = new();
+
+    private readonly List<Order> activeOrders = new();
+    public event System.Action OrdersChanged;
+
+
+
 
     ulong[] GetIds() => new List<ulong>(playerColors.Keys).ToArray();
     Color32[] GetColors() => new List<Color32>(playerColors.Values).ToArray();
@@ -108,5 +113,99 @@ public class GameManager : NetworkBehaviour
         if (shiftStarted.Value) return; 
         shiftStarted.Value = true;
     }
+
+    //Orders ==========================
+[ServerRpc(RequireOwnership = false)]
+public void SubmitOrderServerRpc(ulong customerId)
+{
+    activeOrders.Add(new Order
+    {
+        CustomerId = customerId,
+        State = OrderState.Submitted,
+        WantedIngredients = new string[0],
+        ReceivedIngredients = new string[0]
+    });
+    SyncOrdersClientRpc(SerializeOrders());
+}
+
+[ServerRpc(RequireOwnership = false)]
+public void MarkOrderReadyServerRpc(ulong customerId)
+{
+    for (int i = 0; i < activeOrders.Count; i++)
+    {
+        if (activeOrders[i].CustomerId != customerId) continue;
+        var order = activeOrders[i];
+        order.State = OrderState.Ready;
+        activeOrders[i] = order;
+        SyncOrdersClientRpc(SerializeOrders());
+        return;
+    }
+}
+
+[ServerRpc(RequireOwnership = false)]
+public void DeliverOrderServerRpc(ulong customerId)
+{
+    for (int i = 0; i < activeOrders.Count; i++)
+    {
+        if (activeOrders[i].CustomerId != customerId) continue;
+        var order = activeOrders[i];
+        order.State = OrderState.Delivered;
+        activeOrders[i] = order;
+        SyncOrdersClientRpc(SerializeOrders());
+        StartCoroutine(ClearOrderAfterDelay(customerId));
+        return;
+    }
+}
+
+IEnumerator ClearOrderAfterDelay(ulong customerId)
+{
+    yield return new WaitForSeconds(2f);
+    for (int i = 0; i < activeOrders.Count; i++)
+    {
+        if (activeOrders[i].CustomerId != customerId) continue;
+        activeOrders.RemoveAt(i);
+        SyncOrdersClientRpc(SerializeOrders());
+        yield break;
+    }
+}
+
+public Order? GetOrder(ulong customerId)
+{
+    foreach (var order in activeOrders)
+        if (order.CustomerId == customerId) return order;
+    return null;
+}
+
+public List<Order> AllOrders() => activeOrders;
+
+string SerializeOrders()
+{
+    var sb = new System.Text.StringBuilder();
+    foreach (var order in activeOrders)
+        sb.Append($"{order.CustomerId},{(int)order.State};");
+    return sb.ToString();
+}
+
+[ClientRpc]
+void SyncOrdersClientRpc(string data)
+{
+    activeOrders.Clear();
+    if (string.IsNullOrEmpty(data)) return;
+
+    foreach (var entry in data.Split(';'))
+    {
+        if (string.IsNullOrEmpty(entry)) continue;
+        var parts = entry.Split(',');
+        activeOrders.Add(new Order
+        {
+            CustomerId = ulong.Parse(parts[0]),
+            State = (OrderState)int.Parse(parts[1]),
+            WantedIngredients = new string[0],
+            ReceivedIngredients = new string[0]
+        });
+    }
+
+    OrdersChanged?.Invoke();
+}
             
 }
