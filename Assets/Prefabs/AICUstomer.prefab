@@ -337,31 +337,40 @@ MonoBehaviour:
   possibleMeals:
   - mealName: HotDog
     ingredients:
+    - {fileID: 11400000, guid: 686bbc98c54bc3f50b9c0e064291e5a9, type: 2}
     - {fileID: 11400000, guid: c081d1a89fc5d7d0084f8fb7227e88e6, type: 2}
-  - mealName: Burger
+    - {fileID: 11400000, guid: 7a2f34f6ad6e4bcd872934eb3cda9f11, type: 2}
+  - mealName: TheClassic
     ingredients:
     - {fileID: 11400000, guid: 8ffa04368a937e4279d336439db2f01e, type: 2}
     - {fileID: 11400000, guid: 4bb14d98fadff924b88d339bb6970ed8, type: 2}
     - {fileID: 11400000, guid: 7330954628f03612a8e46715c71fcd09, type: 2}
-  - mealName: BurgerMore
+  - mealName: TheSaucyBoy
     ingredients:
     - {fileID: 11400000, guid: 8ffa04368a937e4279d336439db2f01e, type: 2}
     - {fileID: 11400000, guid: 4bb14d98fadff924b88d339bb6970ed8, type: 2}
-    - {fileID: 11400000, guid: 969c0a03def19a9a48cc8ac2f5c77748, type: 2}
+    - {fileID: 11400000, guid: 6fb7c52e9a214c069fa12df20a6cb4a5, type: 2}
+    - {fileID: 11400000, guid: 7a2f34f6ad6e4bcd872934eb3cda9f11, type: 2}
+    - {fileID: 11400000, guid: 3bf81cdf15de4d3c87a07494f52f4028, type: 2}
+    - {fileID: 11400000, guid: 7330954628f03612a8e46715c71fcd09, type: 2}
+  - mealName: TheGardenBurger
+    ingredients:
+    - {fileID: 11400000, guid: 8ffa04368a937e4279d336439db2f01e, type: 2}
+    - {fileID: 11400000, guid: 4bb14d98fadff924b88d339bb6970ed8, type: 2}
+    - {fileID: 11400000, guid: 7a2f34f6ad6e4bcd872934eb3cda9f11, type: 2}
     - {fileID: 11400000, guid: 09da2ffbadb6753af90c66573a84cbf4, type: 2}
+    - {fileID: 11400000, guid: 969c0a03def19a9a48cc8ac2f5c77748, type: 2}
+    - {fileID: 11400000, guid: 2c9f062478b9442fb6429f6e342c85b1, type: 2}
+    - {fileID: 11400000, guid: 6fb7c52e9a214c069fa12df20a6cb4a5, type: 2}
     - {fileID: 11400000, guid: 7330954628f03612a8e46715c71fcd09, type: 2}
-  - mealName: DoubleBurg
+  - mealName: TheDoubleStack
     ingredients:
     - {fileID: 11400000, guid: 8ffa04368a937e4279d336439db2f01e, type: 2}
     - {fileID: 11400000, guid: 4bb14d98fadff924b88d339bb6970ed8, type: 2}
-    - {fileID: 11400000, guid: 4bb14d98fadff924b88d339bb6970ed8, type: 2}
+    - {fileID: 11400000, guid: 7a2f34f6ad6e4bcd872934eb3cda9f11, type: 2}
     - {fileID: 11400000, guid: 7330954628f03612a8e46715c71fcd09, type: 2}
-  - mealName: TrippleBurg
-    ingredients:
-    - {fileID: 11400000, guid: 8ffa04368a937e4279d336439db2f01e, type: 2}
     - {fileID: 11400000, guid: 4bb14d98fadff924b88d339bb6970ed8, type: 2}
-    - {fileID: 11400000, guid: 4bb14d98fadff924b88d339bb6970ed8, type: 2}
-    - {fileID: 11400000, guid: 4bb14d98fadff924b88d339bb6970ed8, type: 2}
+    - {fileID: 11400000, guid: 7a2f34f6ad6e4bcd872934eb3cda9f11, type: 2}
     - {fileID: 11400000, guid: 7330954628f03612a8e46715c71fcd09, type: 2}
   - mealName: DoubleDeckerBurg
     ingredients:
@@ -370,14 +379,31 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 8ffa04368a937e4279d336439db2f01e, type: 2}
     - {fileID: 11400000, guid: 4bb14d98fadff924b88d339bb6970ed8, type: 2}
     - {fileID: 11400000, guid: 7330954628f03612a8e46715c71fcd09, type: 2}
-  - mealName: TrippleDeckerBurg
+  - mealName: TheLoaded
     ingredients:
     - {fileID: 11400000, guid: 8ffa04368a937e4279d336439db2f01e, type: 2}
     - {fileID: 11400000, guid: 4bb14d98fadff924b88d339bb6970ed8, type: 2}
+    - {fileID: 11400000, guid: c1b637aa4f0847d4a530d771b856cf97, type: 2}
+    - {fileID: 11400000, guid: 09da2ffbadb6753af90c66573a84cbf4, type: 2}
+    - {fileID: 11400000, guid: 6fb7c52e9a214c069fa12df20a6cb4a5, type: 2}
+    - {fileID: 11400000, guid: 4bb14d98fadff924b88d339bb6970ed8, type: 2}
+    - {fileID: 11400000, guid: 2c9f062478b9442fb6429f6e342c85b1, type: 2}
+    - {fileID: 11400000, guid: 3bf81cdf15de4d3c87a07494f52f4028, type: 2}
+    - {fileID: 11400000, guid: 969c0a03def19a9a48cc8ac2f5c77748, type: 2}
+    - {fileID: 11400000, guid: 7330954628f03612a8e46715c71fcd09, type: 2}
+  - mealName: TheDouble
+    ingredients:
     - {fileID: 11400000, guid: 8ffa04368a937e4279d336439db2f01e, type: 2}
     - {fileID: 11400000, guid: 4bb14d98fadff924b88d339bb6970ed8, type: 2}
-    - {fileID: 11400000, guid: 8ffa04368a937e4279d336439db2f01e, type: 2}
+    - {fileID: 11400000, guid: 7a2f34f6ad6e4bcd872934eb3cda9f11, type: 2}
     - {fileID: 11400000, guid: 4bb14d98fadff924b88d339bb6970ed8, type: 2}
+    - {fileID: 11400000, guid: 7330954628f03612a8e46715c71fcd09, type: 2}
+  - mealName: TheVegan
+    ingredients:
+    - {fileID: 11400000, guid: 8ffa04368a937e4279d336439db2f01e, type: 2}
+    - {fileID: 11400000, guid: 09da2ffbadb6753af90c66573a84cbf4, type: 2}
+    - {fileID: 11400000, guid: 2c9f062478b9442fb6429f6e342c85b1, type: 2}
+    - {fileID: 11400000, guid: 969c0a03def19a9a48cc8ac2f5c77748, type: 2}
     - {fileID: 11400000, guid: 7330954628f03612a8e46715c71fcd09, type: 2}
   orderUI: {fileID: 7238366814083974328}
   eatingDuration: 10
