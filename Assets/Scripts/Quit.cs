@@ -2,16 +2,12 @@ using UnityEngine;
 
 public class Quit : MonoBehaviour
 {
-
     public void QuitGame()
     {
-        if (Application.isEditor)
-        {
+        #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
-        }
-        else
-        {
+        #else
             Application.Quit();
-        }
+        #endif
     }
 }
