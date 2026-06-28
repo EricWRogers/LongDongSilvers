@@ -84,4 +84,10 @@ public class POS : NetworkBehaviour
         text.text = orderText;
         UpdatePanelClientRpc(true, false);
     }
+
+    public void EndShift()
+    {
+        if (!NetworkManager.Singleton.IsHost) return;
+        GameManager.Instance.EndShiftServerRpc();
+    }
 }

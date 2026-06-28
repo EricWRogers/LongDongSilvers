@@ -244,5 +244,13 @@ public class GameManager : NetworkBehaviour
         if (pos != null)
             pos.ResetToStartShift();
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void EndShiftServerRpc()
+    {
+        shiftStarted.Value = false;
+        shiftTimer.Value = 0f;
+        StartCoroutine(WaitForCustomersThenResetPOS());
+    }
             
 }
