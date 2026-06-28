@@ -68,7 +68,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TrashIngredientSpawner
   trashIngredients:
   - {fileID: 11400000, guid: b2eac94d7d61442fa38a8d5db6d8ca60, type: 2}
-  - {fileID: 11400000, guid: b2eac94d7d61442fa38a8d5db6d8ca60, type: 2}
+  - {fileID: 11400000, guid: 08b25977756cf7b33bab1b88a199681b, type: 2}
+  - {fileID: 11400000, guid: 114b061f6b6ed1bfdb5e7b13583823d0, type: 2}
+  - {fileID: 11400000, guid: 8a2f87c6fb7c4438cb650ae56b7a5c91, type: 2}
   spawnPoint: {fileID: 8907617488865813610}
   spawnOnStart: 1
   restockWhenTaken: 1
