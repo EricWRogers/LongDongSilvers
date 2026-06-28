@@ -8,11 +8,15 @@ public class PlayerMovement : NetworkBehaviour
     public float walkSpeed = 10f;
     public float sprintSpeed = 15f;
 
-    public float acceleration = 20f;
+    public float acceleration = 60f;
+    public float deceleration = 90f;
+    public float airAcceleration = 20f;
 
     [Header("Jump")]
-    public float jumpForce = 7f;
+    public float jumpForce = 6f;
     public float coyoteTime = 0.12f;
+    public float riseGravityMultiplier = 1.4f;
+    public float fallGravityMultiplier = 2.2f;
 
     [Header("Ground Detection")]
     public LayerMask groundLayer;
@@ -74,6 +78,7 @@ public class PlayerMovement : NetworkBehaviour
         if (!IsOwner) return;
 
         ApplyMovement();
+        ApplyExtraGravity();
     }
 
     void ApplyMovement()
@@ -87,8 +92,26 @@ public class PlayerMovement : NetworkBehaviour
             0f,
             targetVelocity.z - rb.linearVelocity.z
         );
-        velocityChange = Vector3.ClampMagnitude(velocityChange, acceleration * Time.fixedDeltaTime);
+        float accelRate = GetAccelerationRate(inputDir);
+        velocityChange = Vector3.ClampMagnitude(velocityChange, accelRate * Time.fixedDeltaTime);
         rb.AddForce(velocityChange, ForceMode.VelocityChange);
+    }
+
+    float GetAccelerationRate(Vector3 inputDir)
+    {
+        if (!isGrounded)
+            return airAcceleration;
+
+        return inputDir.sqrMagnitude > 0f ? acceleration : deceleration;
+    }
+
+    void ApplyExtraGravity()
+    {
+        if (isGrounded)
+            return;
+
+        float gravityMultiplier = rb.linearVelocity.y < 0f ? fallGravityMultiplier : riseGravityMultiplier;
+        rb.AddForce(Physics.gravity * (gravityMultiplier - 1f), ForceMode.Acceleration);
     }
 
     bool CheckGrounded()
