@@ -484,7 +484,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3586860167
+  GlobalObjectIdHash: 2467099278
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -608,7 +608,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6fc72a01f5831544927e145852be65c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnProp
-  itemPrefab: {fileID: 5169151619716052860, guid: 239efa64796a649219d138d415cc466d, type: 3}
+  itemPrefab: {fileID: 881763262408969505, guid: 80550462b5557fc6792c8482e0688422, type: 3}
   itemSpawnPoint: {fileID: 3813951263502355927}
   itemCost: 0
   restockDelay: 0.25

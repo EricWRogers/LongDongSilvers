@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: daee978bc7ca31d68b70056a6095715e, type: 3}
-  m_Name: Tomato
+  m_Name: Napkin
   m_EditorClassIdentifier: Assembly-CSharp::FoodIngredientDefinition
-  ingredientName: Tomato
-  quality: 0
-  goodIngredientCost: 1
+  ingredientName: Napkin
+  quality: 1
+  goodIngredientCost: 0
   canBeCooked: 0
-  canBePrepared: 1
+  canBePrepared: 0
   defaultCookState: 0
-  defaultPrepState: 1
-  ingredientPrefab: {fileID: 822969488720117844, guid: dcc8dda184f4404388d7a90c244d0d9e, type: 3}
+  defaultPrepState: 0
+  ingredientPrefab: {fileID: 8761758195408443829, guid: e3ead914e98b2493791bfd0c76b7ab33, type: 3}
   icon: {fileID: 0}

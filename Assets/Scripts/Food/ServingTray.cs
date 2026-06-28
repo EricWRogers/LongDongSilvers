@@ -143,6 +143,7 @@ public class ServingTray : NetworkBehaviour, IInteractable
             return false;
         }
 
+        RestoreFoodCollidersAfterTray(food);
         food.SetCurrentServingTray(null);
         carriedFood = null;
         pendingFoodNetworkObjectId = NoFood;
@@ -299,6 +300,18 @@ public class ServingTray : NetworkBehaviour, IInteractable
     }
 
     private void SetFoodCollidersForTray(FoodAssemblyBase food)
+    {
+        if (food == null) return;
+
+        Collider[] colliders = food.GetComponentsInChildren<Collider>();
+
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            colliders[i].enabled = false;
+        }
+    }
+
+    private void RestoreFoodCollidersAfterTray(FoodAssemblyBase food)
     {
         if (food == null) return;
 

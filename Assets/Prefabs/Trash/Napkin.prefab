@@ -184,7 +184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Item
   ShowTopMostFoldoutHeaderGroup: 1
-  itemName: Item
+  itemName: Napkin
   itemType: 2
 --- !u!114 &7849344039952889042
 MonoBehaviour:
@@ -244,7 +244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7e6c84143a4ee7a88e6ef83abe91ffc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FoodIngredient
-  definition: {fileID: 11400000, guid: 09da2ffbadb6753af90c66573a84cbf4, type: 2}
+  definition: {fileID: 11400000, guid: b2eac94d7d61442fa38a8d5db6d8ca60, type: 2}
   useDefinitionDefaultStates: 1
   cookState: 0
   prepState: 0
