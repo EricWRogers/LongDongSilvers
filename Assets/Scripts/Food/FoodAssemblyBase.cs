@@ -21,6 +21,7 @@ public class FoodAssemblyBase : NetworkBehaviour, IInteractable
     [SerializeField] private Vector3 snappedLocalEulerAngles;
 
     private readonly List<FoodIngredient> snappedIngredients = new();
+    private readonly List<Vector3> snappedIngredientLocalPositions = new();
     private readonly List<Quaternion> snappedIngredientLocalRotations = new();
     private readonly List<FoodIngredient> assembledIngredients = new();
     private FoodIngredient baseIngredient;
@@ -148,18 +149,42 @@ public class FoodAssemblyBase : NetworkBehaviour, IInteractable
 
     public bool ServerTrySnapIngredient(FoodIngredient ingredient)
     {
-        return ServerTrySnapIngredient(ingredient, Quaternion.Euler(snappedLocalEulerAngles));
+        return ServerTrySnapIngredient(ingredient, Quaternion.Euler(snappedLocalEulerAngles), spacingMultiplier: 1f);
     }
 
-    public bool ServerTrySnapIngredientWithLocalYRotationOffset(FoodIngredient ingredient, float localYRotationOffset)
+    public bool ServerTrySnapIngredientWithLocalYRotationOffset(
+        FoodIngredient ingredient,
+        float localYRotationOffset,
+        float spacingMultiplier)
     {
         Vector3 localEulerAngles = snappedLocalEulerAngles;
         localEulerAngles.y += localYRotationOffset;
 
-        return ServerTrySnapIngredient(ingredient, Quaternion.Euler(localEulerAngles));
+        return ServerTrySnapIngredient(ingredient, Quaternion.Euler(localEulerAngles), spacingMultiplier);
     }
 
-    private bool ServerTrySnapIngredient(FoodIngredient ingredient, Quaternion localRotation)
+    public bool ServerTrySnapIngredientWithLocalOffsets(
+        FoodIngredient ingredient,
+        float localYRotationOffset,
+        float spacingMultiplier,
+        Vector3 localPositionOffset)
+    {
+        Vector3 localEulerAngles = snappedLocalEulerAngles;
+        localEulerAngles.y += localYRotationOffset;
+
+        return ServerTrySnapIngredient(ingredient, Quaternion.Euler(localEulerAngles), spacingMultiplier, localPositionOffset);
+    }
+
+    private bool ServerTrySnapIngredient(FoodIngredient ingredient, Quaternion localRotation, float spacingMultiplier)
+    {
+        return ServerTrySnapIngredient(ingredient, localRotation, spacingMultiplier, Vector3.zero);
+    }
+
+    private bool ServerTrySnapIngredient(
+        FoodIngredient ingredient,
+        Quaternion localRotation,
+        float spacingMultiplier,
+        Vector3 localPositionOffset)
     {
         if (!IsServerActive()) return false;
         if (!CanSnapIngredient(ingredient, allowHeld: false, out _))
@@ -168,10 +193,12 @@ public class FoodAssemblyBase : NetworkBehaviour, IInteractable
         }
 
         RemoveMissingSnappedIngredients();
+        EnsureSnappedIngredientLocalPositions();
 
-        Vector3 localPosition = GetLocalSnapPosition(snappedIngredients.Count);
+        Vector3 localPosition = GetLocalSnapPosition(snappedIngredients.Count, spacingMultiplier) + localPositionOffset;
 
         snappedIngredients.Add(ingredient);
+        snappedIngredientLocalPositions.Add(localPosition);
         snappedIngredientLocalRotations.Add(localRotation);
         ApplySnappedPose(ingredient, localPosition, localRotation);
 
@@ -192,11 +219,12 @@ public class FoodAssemblyBase : NetworkBehaviour, IInteractable
     {
         TrackSnappedIngredientsFromChildren();
         RemoveMissingSnappedIngredients();
+        EnsureSnappedIngredientLocalPositions();
         EnsureSnappedIngredientLocalRotations();
 
         for (int i = 0; i < snappedIngredients.Count; i++)
         {
-            ApplySnappedPose(snappedIngredients[i], GetLocalSnapPosition(i), snappedIngredientLocalRotations[i]);
+            ApplySnappedPose(snappedIngredients[i], snappedIngredientLocalPositions[i], snappedIngredientLocalRotations[i]);
         }
     }
 
@@ -322,6 +350,26 @@ public class FoodAssemblyBase : NetworkBehaviour, IInteractable
         return firstIngredientLocalOffset + direction * ingredientSpacing * snappedIngredientIndex;
     }
 
+    private Vector3 GetLocalSnapPosition(int snappedIngredientIndex, float spacingMultiplier)
+    {
+        if (snappedIngredientIndex == 0)
+        {
+            return GetLocalSnapPosition(snappedIngredientIndex);
+        }
+
+        EnsureSnappedIngredientLocalPositions();
+
+        if (snappedIngredientLocalPositions.Count == 0)
+        {
+            return GetLocalSnapPosition(snappedIngredientIndex);
+        }
+
+        Vector3 direction = stackDirection.sqrMagnitude > 0f ? stackDirection.normalized : Vector3.up;
+        Vector3 previousPosition = snappedIngredientLocalPositions[snappedIngredientLocalPositions.Count - 1];
+
+        return previousPosition + direction * ingredientSpacing * Mathf.Max(0f, spacingMultiplier);
+    }
+
     private void ApplySnappedPose(FoodIngredient ingredient, Vector3 localPosition, Quaternion localRotation)
     {
         if (ingredient == null) return;
@@ -378,7 +426,7 @@ public class FoodAssemblyBase : NetworkBehaviour, IInteractable
         }
 
         FoodIngredient ingredient = ingredientNetworkObject.GetComponent<FoodIngredient>();
-        TrackSnappedIngredient(ingredient, localRotation);
+        TrackSnappedIngredient(ingredient, localPosition, localRotation);
         ApplySnappedPose(ingredient, localPosition, localRotation);
     }
 
@@ -408,7 +456,7 @@ public class FoodAssemblyBase : NetworkBehaviour, IInteractable
             }
 
             FoodIngredient ingredient = ingredientNetworkObject.GetComponent<FoodIngredient>();
-            TrackSnappedIngredient(ingredient, localRotation);
+            TrackSnappedIngredient(ingredient, localPosition, localRotation);
             ApplySnappedPose(ingredient, localPosition, localRotation);
             yield break;
         }
@@ -520,10 +568,10 @@ public class FoodAssemblyBase : NetworkBehaviour, IInteractable
     {
         if (ingredient == null) return;
 
-        TrackSnappedIngredient(ingredient, ingredient.transform.localRotation);
+        TrackSnappedIngredient(ingredient, ingredient.transform.localPosition, ingredient.transform.localRotation);
     }
 
-    private void TrackSnappedIngredient(FoodIngredient ingredient, Quaternion localRotation)
+    private void TrackSnappedIngredient(FoodIngredient ingredient, Vector3 localPosition, Quaternion localRotation)
     {
         if (ingredient == null) return;
         if (ingredient == baseIngredient) return;
@@ -532,12 +580,15 @@ public class FoodAssemblyBase : NetworkBehaviour, IInteractable
 
         if (existingIndex >= 0)
         {
+            EnsureSnappedIngredientLocalPositions();
             EnsureSnappedIngredientLocalRotations();
+            snappedIngredientLocalPositions[existingIndex] = localPosition;
             snappedIngredientLocalRotations[existingIndex] = localRotation;
             return;
         }
 
         snappedIngredients.Add(ingredient);
+        snappedIngredientLocalPositions.Add(localPosition);
         snappedIngredientLocalRotations.Add(localRotation);
     }
 
@@ -563,15 +614,40 @@ public class FoodAssemblyBase : NetworkBehaviour, IInteractable
 
             snappedIngredients.RemoveAt(i);
 
+            if (i < snappedIngredientLocalPositions.Count)
+            {
+                snappedIngredientLocalPositions.RemoveAt(i);
+            }
+
             if (i < snappedIngredientLocalRotations.Count)
             {
                 snappedIngredientLocalRotations.RemoveAt(i);
             }
         }
 
+        while (snappedIngredientLocalPositions.Count > snappedIngredients.Count)
+        {
+            snappedIngredientLocalPositions.RemoveAt(snappedIngredientLocalPositions.Count - 1);
+        }
+
         while (snappedIngredientLocalRotations.Count > snappedIngredients.Count)
         {
             snappedIngredientLocalRotations.RemoveAt(snappedIngredientLocalRotations.Count - 1);
+        }
+    }
+
+    private void EnsureSnappedIngredientLocalPositions()
+    {
+        while (snappedIngredientLocalPositions.Count < snappedIngredients.Count)
+        {
+            int index = snappedIngredientLocalPositions.Count;
+            FoodIngredient ingredient = snappedIngredients[index];
+
+            Vector3 localPosition = ingredient != null
+                ? ingredient.transform.localPosition
+                : GetLocalSnapPosition(index);
+
+            snappedIngredientLocalPositions.Add(localPosition);
         }
     }
 
