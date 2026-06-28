@@ -39,7 +39,6 @@ public class CondimentTool : NetworkBehaviour
     {
         if (!IsServer) return false;
         if (assemblyBase == null) return false;
-        if (assemblyBase.IsOnServingTray) return false;
 
         GameObject condimentPrefab = GetCondimentPrefab(assemblyBase);
 
