@@ -3289,6 +3289,67 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6714165681118977091, guid: 13371d05d9c240041b7bb4a1dfd7b681, type: 3}
   m_PrefabInstance: {fileID: 1205130227}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1218634010
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5513320412115379681, guid: 4093c2db1598aadc387fa366c4638678, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -21.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5513320412115379681, guid: 4093c2db1598aadc387fa366c4638678, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5920517
+      objectReference: {fileID: 0}
+    - target: {fileID: 5513320412115379681, guid: 4093c2db1598aadc387fa366c4638678, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -14.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 5513320412115379681, guid: 4093c2db1598aadc387fa366c4638678, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5513320412115379681, guid: 4093c2db1598aadc387fa366c4638678, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5513320412115379681, guid: 4093c2db1598aadc387fa366c4638678, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5513320412115379681, guid: 4093c2db1598aadc387fa366c4638678, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5513320412115379681, guid: 4093c2db1598aadc387fa366c4638678, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5513320412115379681, guid: 4093c2db1598aadc387fa366c4638678, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5513320412115379681, guid: 4093c2db1598aadc387fa366c4638678, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7137443233997068667, guid: 4093c2db1598aadc387fa366c4638678, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1435502494
+      objectReference: {fileID: 0}
+    - target: {fileID: 8533843735119920699, guid: 4093c2db1598aadc387fa366c4638678, type: 3}
+      propertyPath: m_Name
+      value: Vegie Shelf
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4093c2db1598aadc387fa366c4638678, type: 3}
 --- !u!1 &1250238348
 GameObject:
   m_ObjectHideFlags: 0
@@ -4605,3 +4666,4 @@ SceneRoots:
   - {fileID: 548368630}
   - {fileID: 6226515815107988670}
   - {fileID: 118169425}
+  - {fileID: 1218634010}
