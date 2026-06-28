@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 472741614930519683}
   - component: {fileID: 330575232866107081}
   - component: {fileID: 4930415287717421796}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Trash Can
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,9 +209,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8287749792508585924}
     m_Modifications:
+    - target: {fileID: 133814346845447274, guid: 6b50d25bd4101eb6fbc6fa09b9bd6f11, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 2048
+      objectReference: {fileID: 0}
     - target: {fileID: 3052920655798997611, guid: 6b50d25bd4101eb6fbc6fa09b9bd6f11, type: 3}
       propertyPath: m_Name
       value: TrashSpawner
+      objectReference: {fileID: 0}
+    - target: {fileID: 3052920655798997611, guid: 6b50d25bd4101eb6fbc6fa09b9bd6f11, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 8907617488865813610, guid: 6b50d25bd4101eb6fbc6fa09b9bd6f11, type: 3}
       propertyPath: m_LocalPosition.x
