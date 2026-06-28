@@ -354,9 +354,13 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   walkSpeed: 10
   sprintSpeed: 15
-  acceleration: 20
+  acceleration: 60
+  deceleration: 90
+  airAcceleration: 20
   jumpForce: 6
   coyoteTime: 0.12
+  riseGravityMultiplier: 1.4
+  fallGravityMultiplier: 2.2
   groundLayer:
     serializedVersion: 2
     m_Bits: 449

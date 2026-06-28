@@ -184,7 +184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Item
   ShowTopMostFoldoutHeaderGroup: 1
-  itemName: Mustard Bottle
+  itemName: Hot Sauce Bottle
   itemType: 1
 --- !u!114 &7836407042028606948
 MonoBehaviour:
@@ -245,7 +245,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CondimentTool
   ShowTopMostFoldoutHeaderGroup: 1
-  condimentIngredient: {fileID: 11400000, guid: 6fb7c52e9a214c069fa12df20a6cb4a5, type: 2}
+  condimentIngredient: {fileID: 11400000, guid: c1b637aa4f0847d4a530d771b856cf97, type: 2}
   condimentPrefabOverride: {fileID: 0}
-  burgerCondimentPrefab: {fileID: 2530836116558888188, guid: ae1e12e487e497ed9a58a33761669d2d, type: 3}
-  hotdogCondimentPrefab: {fileID: 5374198899473544682, guid: c44acc2dd93deb18ebc2bafc4325c184, type: 3}
+  burgerCondimentPrefab: {fileID: 3674218944309126041, guid: 71fb9019f88c4e678b5d3066d07e5525, type: 3}
+  hotdogCondimentPrefab: {fileID: 3740763978120521288, guid: 67bfb04ee34747c7a77eeabac13bf94d, type: 3}
+  randomLocalYRotationRange: {x: 0, y: 360}
