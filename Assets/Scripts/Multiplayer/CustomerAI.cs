@@ -293,6 +293,7 @@ public class CustomerAI : NetworkBehaviour
 
         LockFoodObjectClientRpc(tray.NetworkObject.NetworkObjectId);
         SetState(CustomerState.Eating);
+        OrderManager.Instance.ClearOrder(customerId.Value);
     }
 
     [ClientRpc]
@@ -307,5 +308,13 @@ public class CustomerAI : NetworkBehaviour
         foreach (var col in netObj.GetComponentsInChildren<Collider>())
             col.enabled = false;
 
+    }
+
+    public string GetIngredientNamesString()
+    {
+        var names = new List<string>();
+        foreach (var ing in wantedIngredients)
+            names.Add(ing.IngredientName);
+        return string.Join(",", names);
     }
 }

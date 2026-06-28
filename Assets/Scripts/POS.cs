@@ -26,7 +26,12 @@ public class POS : NetworkBehaviour
 
     public void SubmitOrder()
     {
-        RegisterTest.Instance.NotifyOrderSubmittedServerRpc();
+        var names = new List<string>();
+        foreach (var ing in ingredientsForOrder)
+            names.Add(ing.IngredientName);
+        string ingredientString = string.Join(",", names);
+
+        RegisterTest.Instance.NotifyOrderSubmittedServerRpc(ingredientString);
         ingredientsForOrder.Clear();
         orderText = "";
         SubmitOrderServerRpc();

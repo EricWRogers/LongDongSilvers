@@ -45,14 +45,14 @@ public class RegisterTest : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void NotifyOrderSubmittedServerRpc()
+    public void NotifyOrderSubmittedServerRpc(string ingredientNames)
     {
         orderSubmitted = true;
         ulong customerId = queue.Count > 0 ? queue[0].customerId.Value : 0;
         GameManager.Instance.SubmitOrderServerRpc(customerId);
+        OrderManager.Instance.AddOrder(customerId, ingredientNames);
     }
 
-    
 
     public void ResetOrder() 
     {
