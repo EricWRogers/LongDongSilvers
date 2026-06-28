@@ -310,7 +310,7 @@ public class CustomerAI : NetworkBehaviour
         LockFoodObjectClientRpc(tray.NetworkObject.NetworkObjectId);
         SetState(CustomerState.Eating);
         ShowScoreClientRpc(score, maxScore); 
-}
+    }
 
     [ClientRpc]
     void LockFoodObjectClientRpc(ulong trayNetId)
@@ -364,18 +364,20 @@ public class CustomerAI : NetworkBehaviour
                 bool subMatch = false;
                 for (int i = 0; i < wanted.Count; i++)
                 {
-                    if (ingredient.Definition.SubstituteFor == wanted[i])
+                    if (wanted[i].TrashEquivalent == ingredient.Definition)
                     {
-                        score -= 0.5f;
+                        score += 0.5f;
                         wanted.RemoveAt(i);
                         subMatch = true;
                         break;
                     }
                 }
 
-                if (!subMatch) score -= 0.5f; 
+                if (!subMatch) score -= 0.5f;
             }
         }
+
+        score -= wanted.Count * 0.5f;
 
         return score;
     }

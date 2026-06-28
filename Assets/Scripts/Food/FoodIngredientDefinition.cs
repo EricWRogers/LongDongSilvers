@@ -28,8 +28,8 @@ public class FoodIngredientDefinition : ScriptableObject
     [SerializeField] private Sprite icon;
 
     [Header("Substitution")] //This is for the garbage ingredients
-    [SerializeField] private FoodIngredientDefinition substituteFor;
-    public FoodIngredientDefinition SubstituteFor => substituteFor;
+    [SerializeField] private FoodIngredientDefinition trashEquivalent;
+    public FoodIngredientDefinition TrashEquivalent => trashEquivalent;
 
     public string IngredientName => ingredientName;
     public IngredientQuality Quality => quality;
