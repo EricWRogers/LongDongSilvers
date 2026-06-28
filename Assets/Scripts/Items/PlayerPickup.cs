@@ -145,15 +145,22 @@ public class PlayerPickup : NetworkBehaviour
         return true;
     }
 
-    private void PerformPickUp(Item item)
+    public bool ServerTryPickUpItem(Item item)
     {
-        if (!IsServer) return;
-        if (item == null) return;
-        if (heldItem != null) return;
+        if (!IsServer) return false;
+
+        return PerformPickUp(item);
+    }
+
+    private bool PerformPickUp(Item item)
+    {
+        if (!IsServer) return false;
+        if (item == null) return false;
+        if (heldItem != null) return false;
 
         if (!PrepareItemForPickUp(item))
         {
-            return;
+            return false;
         }
 
         bool success = item.ServerStartHolding(this);
@@ -161,13 +168,14 @@ public class PlayerPickup : NetworkBehaviour
         if (!success)
         {
             Debug.LogWarning("[Server] Failed to start holding item.");
-            return;
+            return false;
         }
 
         heldItem = item;
         heldItemNetId.Value = item.NetworkObject.NetworkObjectId;
 
         Debug.Log($"[Server] {gameObject.name} picked up {item.itemName}");
+        return true;
     }
 
     private bool PrepareItemForPickUp(Item item)

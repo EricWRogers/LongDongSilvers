@@ -47,7 +47,7 @@ public class ServingTray : NetworkBehaviour, IInteractable
             return;
         }
 
-        RequestLoadHeldFoodServerRpc();
+        RequestUseServingTrayServerRpc();
     }
 
     public override void OnNetworkSpawn()
@@ -75,14 +75,37 @@ public class ServingTray : NetworkBehaviour, IInteractable
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void RequestLoadHeldFoodServerRpc(ServerRpcParams rpcParams = default)
+    private void RequestUseServingTrayServerRpc(ServerRpcParams rpcParams = default)
     {
         if (!TryGetSenderPickup(rpcParams.Receive.SenderClientId, out PlayerPickup playerPickup))
         {
             return;
         }
 
-        ServerTryLoadHeldFood(playerPickup);
+        ServerTryUseWithPlayer(playerPickup);
+    }
+
+    public bool ServerTryUseWithPlayer(PlayerPickup playerPickup)
+    {
+        if (!IsServer) return false;
+        if (playerPickup == null) return false;
+
+        if (!playerPickup.ServerTryGetHeldItem(out _))
+        {
+            return ServerTryTakeCarriedFood(playerPickup);
+        }
+
+        if (!HasFood)
+        {
+            return ServerTryLoadHeldFood(playerPickup);
+        }
+
+        if (!TryResolveCarriedFood(out FoodAssemblyBase food))
+        {
+            return false;
+        }
+
+        return food.ServerTryUseHeldItem(playerPickup);
     }
 
     public bool ServerTryLoadHeldFood(PlayerPickup playerPickup)
@@ -150,6 +173,26 @@ public class ServingTray : NetworkBehaviour, IInteractable
         carriedFoodNetworkObjectId.Value = NoFood;
 
         return true;
+    }
+
+    public bool ServerTryTakeCarriedFood(PlayerPickup playerPickup)
+    {
+        if (!IsServer) return false;
+        if (playerPickup == null) return false;
+
+        if (!TryResolveCarriedFood(out FoodAssemblyBase food))
+        {
+            return false;
+        }
+
+        Item foodItem = food.GetComponent<Item>();
+
+        if (foodItem == null)
+        {
+            return false;
+        }
+
+        return playerPickup.ServerTryPickUpItem(foodItem);
     }
 
     public IReadOnlyList<FoodIngredient> GetCarriedIngredients()
@@ -245,7 +288,13 @@ public class ServingTray : NetworkBehaviour, IInteractable
         food = foodNetworkObject.GetComponent<FoodAssemblyBase>();
         carriedFood = food;
 
-        return food != null;
+        if (food != null)
+        {
+            food.SetCurrentServingTray(this);
+            return true;
+        }
+
+        return false;
     }
 
     private bool CanLoadFood(FoodAssemblyBase food)

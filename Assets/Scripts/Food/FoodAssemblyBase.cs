@@ -108,11 +108,6 @@ public class FoodAssemblyBase : NetworkBehaviour, IInteractable
 
     private bool ServerTryPlaceHeldIngredient(PlayerPickup playerPickup, Item heldItem)
     {
-        if (IsOnServingTray)
-        {
-            return false;
-        }
-
         FoodIngredient ingredient = GetFoodIngredient(heldItem);
 
         if (!CanSnapIngredient(ingredient, allowHeld: true, out _))
@@ -142,7 +137,6 @@ public class FoodAssemblyBase : NetworkBehaviour, IInteractable
     {
         if (!IsServerActive()) return false;
         if (condimentTool == null) return false;
-        if (IsOnServingTray) return false;
 
         return condimentTool.ServerTryApplyTo(this);
     }
@@ -248,12 +242,6 @@ public class FoodAssemblyBase : NetworkBehaviour, IInteractable
         if (ingredient == null)
         {
             reason = "held item has no FoodIngredient component.";
-            return false;
-        }
-
-        if (IsOnServingTray)
-        {
-            reason = "food is already on a serving tray.";
             return false;
         }
 
