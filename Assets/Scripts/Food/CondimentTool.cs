@@ -15,6 +15,13 @@ public class CondimentTool : NetworkBehaviour
 
     [Header("Placement")]
     [SerializeField] private Vector2 randomLocalYRotationRange = new Vector2(0f, 360f);
+    [SerializeField] private Vector2 hotdogRandomLocalXPositionRange = new Vector2(0f, -0.02f);
+    [Min(0f)]
+    [SerializeField] private float spacingMultiplier = 0.15f;
+
+    [Header("Audio")]
+    [SerializeField] private AudioClip squirtSound;
+    [SerializeField, Range(0f, 1f)] private float squirtSoundVolume = 1f;
 
     public FoodIngredientDefinition CondimentIngredient => condimentIngredient;
 
@@ -76,15 +83,27 @@ public class CondimentTool : NetworkBehaviour
             condimentNetworkObject.Spawn();
         }
 
-        float randomLocalYRotation = GetRandomLocalYRotation();
+        float localYRotation = ShouldRandomizeLocalYRotation(assemblyBase)
+            ? GetRandomLocalYRotation()
+            : 0f;
+        Vector3 localPositionOffset = GetLocalPositionOffset(assemblyBase);
 
-        if (assemblyBase.ServerTrySnapIngredientWithLocalYRotationOffset(condiment, randomLocalYRotation))
+        if (assemblyBase.ServerTrySnapIngredientWithLocalOffsets(condiment, localYRotation, spacingMultiplier, localPositionOffset))
         {
+            PlaySquirtSoundClientRpc(assemblyBase.transform.position);
             return true;
         }
 
         DestroyCondimentObject(condimentObject, condimentNetworkObject);
         return false;
+    }
+
+    [ClientRpc]
+    private void PlaySquirtSoundClientRpc(Vector3 position)
+    {
+        if (squirtSound == null) return;
+
+        AudioSource.PlayClipAtPoint(squirtSound, position, squirtSoundVolume);
     }
 
     private GameObject GetCondimentPrefab(FoodAssemblyBase assemblyBase)
@@ -111,10 +130,42 @@ public class CondimentTool : NetworkBehaviour
         return condimentIngredient != null ? condimentIngredient.IngredientPrefab : null;
     }
 
+    private bool ShouldRandomizeLocalYRotation(FoodAssemblyBase assemblyBase)
+    {
+        return IsFoodKind(assemblyBase, FoodKind.Burger);
+    }
+
+    private Vector3 GetLocalPositionOffset(FoodAssemblyBase assemblyBase)
+    {
+        if (!IsFoodKind(assemblyBase, FoodKind.Hotdog))
+        {
+            return Vector3.zero;
+        }
+
+        return new Vector3(GetRandomHotdogLocalXPosition(), 0f, 0f);
+    }
+
+    private bool IsFoodKind(FoodAssemblyBase assemblyBase, FoodKind foodKind)
+    {
+        return assemblyBase != null &&
+               assemblyBase.FoodDefinition != null &&
+               assemblyBase.FoodDefinition.FoodKind == foodKind;
+    }
+
     private float GetRandomLocalYRotation()
     {
-        float min = randomLocalYRotationRange.x;
-        float max = randomLocalYRotationRange.y;
+        return GetRandomRangeValue(randomLocalYRotationRange);
+    }
+
+    private float GetRandomHotdogLocalXPosition()
+    {
+        return GetRandomRangeValue(hotdogRandomLocalXPositionRange);
+    }
+
+    private float GetRandomRangeValue(Vector2 range)
+    {
+        float min = range.x;
+        float max = range.y;
 
         if (min > max)
         {
