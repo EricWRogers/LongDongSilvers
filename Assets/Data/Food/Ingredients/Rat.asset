@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Rat
   m_EditorClassIdentifier: Assembly-CSharp::FoodIngredientDefinition
   ingredientName: Ingredient
-  quality: 0
+  quality: 1
   goodIngredientCost: 1
   canBeCooked: 0
   canBePrepared: 0
-  defaultCookState: 0
+  defaultCookState: 1
   defaultPrepState: 0
-  ingredientPrefab: {fileID: 0}
+  ingredientPrefab: {fileID: 6438891428088848878, guid: 9e678688a9dbc9cca9d56c24a1624630, type: 3}
   icon: {fileID: 0}
