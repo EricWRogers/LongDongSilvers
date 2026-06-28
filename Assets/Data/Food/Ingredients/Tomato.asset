@@ -21,3 +21,4 @@ MonoBehaviour:
   defaultPrepState: 1
   ingredientPrefab: {fileID: 822969488720117844, guid: dcc8dda184f4404388d7a90c244d0d9e, type: 3}
   icon: {fileID: 0}
+  trashEquivalent: {fileID: 11400000, guid: 8a2f87c6fb7c4438cb650ae56b7a5c91, type: 2}

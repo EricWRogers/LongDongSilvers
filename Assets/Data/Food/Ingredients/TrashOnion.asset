@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: daee978bc7ca31d68b70056a6095715e, type: 3}
-  m_Name: Onion
+  m_Name: TrashOnion
   m_EditorClassIdentifier: Assembly-CSharp::FoodIngredientDefinition
-  ingredientName: Onion
-  quality: 0
-  goodIngredientCost: 1
+  ingredientName: Ingredient
+  quality: 1
+  goodIngredientCost: 0
   canBeCooked: 0
-  canBePrepared: 1
+  canBePrepared: 0
   defaultCookState: 0
-  defaultPrepState: 1
-  ingredientPrefab: {fileID: 1987677979384464851, guid: 9430958da496b0a1d9e209ddc0b1b221, type: 3}
+  defaultPrepState: 0
+  ingredientPrefab: {fileID: 7141954717476545057, guid: d53f740e74937c7dc9ac3840f0ba40fc, type: 3}
   icon: {fileID: 0}
-  trashEquivalent: {fileID: 11400000, guid: 114b061f6b6ed1bfdb5e7b13583823d0, type: 2}
+  trashEquivalent: {fileID: 0}

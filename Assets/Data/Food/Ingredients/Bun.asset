@@ -19,6 +19,6 @@ MonoBehaviour:
   canBePrepared: 0
   defaultCookState: 0
   defaultPrepState: 0
-  ingredientPrefab: {fileID: 0}
+  ingredientPrefab: {fileID: 3998638989550864381, guid: d52a72141924639e4ab4ad7b461ab03e, type: 3}
   icon: {fileID: 0}
-  substituteFor: {fileID: 0}
+  trashEquivalent: {fileID: 0}
