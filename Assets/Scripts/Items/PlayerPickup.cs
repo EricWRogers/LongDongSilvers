@@ -431,16 +431,13 @@ public class PlayerPickup : NetworkBehaviour
 
         CustomerAI customer = netObj.GetComponent<CustomerAI>();
         if (customer == null) return;
-        if (customer.State != CustomerAI.CustomerState.WaitingForFood)
-        {
-            Debug.LogWarning("[Server] Customer is not waiting for food.");
-            return;
-        }
+        if (customer.State != CustomerAI.CustomerState.WaitingForFood) return;
 
-        heldItem.ServerStopHolding(customer.transform.position, Quaternion.identity);
+        // Stop holding and place in front of customer
+        Item tray = heldItem;
         heldItem = null;
         heldItemNetId.Value = NoItem;
 
-        customer.DeliverFood();
+        customer.ReceiveFood(tray);
     }
 }
